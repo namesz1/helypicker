@@ -8,6 +8,7 @@
 
 <body>
 <button value="box.png" class="gomb" id="icon_to_use">Hely felvétele</button>
+<p id="demo"></p>
 	
 <div id="zombie_map">
 	<script>
@@ -59,7 +60,7 @@
 						map: zombie_map,
 						icon: emoji
 					});
-					window.alert(location.lat()+" "+location.lng());
+					document.getElementById("demo").innerHTML = location.lat()+" "+location.lng();
 				}
 			});
 		}

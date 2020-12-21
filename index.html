@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel = "stylesheet" type="text/css" href="main.css"/>
+<title>Target</title>
+</head>
+
+<body>
+<button value="box.png" class="gomb" id="icon_to_use">Hely felvétele</button>
+<input type="text" id="myInput">
+	
+<div id="zombie_map">
+	<script>
+		var zombie_map;
+		function initMap() {
+				zombie_map = new google.maps.Map(document.getElementById('zombie_map'), {
+				zoom: 18,
+				center: {lat: 48.163195, lng: 21.199560}
+			});
+			
+			if( navigator.geolocation) {
+				navigator.geolocation.watchPosition(set_my_position);
+			}
+			else {
+				alert("Nem támogatott böngésző. :/");
+			}
+			
+			old_position = new google.maps.Marker({
+				position: {lat: 0, lng: 0},
+				map: zombie_map
+			})
+			
+			function place_marker(location){
+				var emoji = document.getElementById('icon_to_use').value;
+				var marker = new google.maps.Marker({
+				  	position: location,
+				  	map: zombie_map,
+					icon: emoji
+				});
+				console.log(location.lat()+" "+location.lng());
+			}
+		}
+		function set_my_position(position){
+			old_position.setMap(null);
+			var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+			var marker = new google.maps.Marker({
+			  position: pos,
+			  icon: "santa.png",
+			  map: zombie_map
+			});
+			old_position = marker;
+			document.getElementById("icon_to_use").addEventListener('click', function() {
+				var kell = pos;
+				place_marker(kell);
+				function place_marker(location){
+				var emoji = document.getElementById('icon_to_use').value;
+				var marker = new google.maps.Marker({
+						position: location,
+						map: zombie_map,
+						icon: emoji
+					});
+					document.getElementById("myInput").value = location.lat()+" "+location.lng();
+				  	var copyText = document.getElementById("myInput");
+					copyText.select();
+					copyText.setSelectionRange(0, 99999)
+				  	document.execCommand("copy");
+				}
+			});
+		}
+	</script>
+</div>
+	
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfFoEZ_mt40jPX5eHQuSKSqWNL4EFsIzg&callback=initMap">
+</script>
+</body>
+</html>
